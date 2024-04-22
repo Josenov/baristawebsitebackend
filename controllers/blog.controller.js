@@ -54,14 +54,14 @@ const controller = {
 
             return res.status(201).json({
                 success: true,
-                message: 'Blog created succesfully!'
+                message: 'Blog creado correctamente!'
             })
 
 
         } catch (error) {
             return res.status(500).json({
                 success: false,
-                message: 'error creating blog!'
+                message: 'error creando blog!'
             })
         }
 
@@ -70,7 +70,7 @@ const controller = {
 
     updateBlog: async(req, res) => {
         try {
-            await Blog.updateOne({_id:req.params.id},req.body )
+            await Blog.updateOne({_id:req.params.id},req.body)
 
             return res.status(201).json({
                 success:true,

@@ -1,12 +1,17 @@
 import express from 'express'
+import topProducts from "../controllers/topProducts.controller.js"
 
 const router = express.Router();
 
-router.get('/', (req, res)=>{
-    res.json({
-        title:'Nombre Producto Top',
-        descripcion:'Esto es una descripcion del producto top seleccionado'
-    })
-})
+router.get('/',topProducts.getTopProducts)
+
+router.get('/:id', topProducts.getTopProductById )
+
+router.post('/', topProducts.createTopProduct)
+
+router.put('/:id', topProducts.updateTopProduct)
+
+router.delete('/:id',topProducts.deleteTopProduct )
+
 
 export default router;
