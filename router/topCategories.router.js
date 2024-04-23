@@ -1,12 +1,16 @@
 import express from 'express'
+import topCategories from '../controllers/topCategories.controller.js'
 
 const router = express.Router();
 
-router.get('/', (req, res)=>{
-    res.json({
-        title:'Nombre Categoria',
-        descripcion:'Esto es una descripcion de la categoria seleccionada'
-    })
-})
+router.get('/', topCategories.getTopCategories)
+
+router.get('/:id', topCategories.getTopCategoriesById)
+
+router.post('/', topCategories.createTopCategory)
+
+router.put('/', topCategories.updateTopCategory)
+
+router.delete('/', topCategories.deleteTopCategory)
 
 export default router;
