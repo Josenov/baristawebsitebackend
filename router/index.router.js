@@ -4,6 +4,7 @@ import topCategoriesRouter from './topCategories.router.js'
 import topProductsRouter from './topProducts.router.js'
 import specialProductsRouter from './specialProducts.router.js'
 import blogsRouter from './blogs.router.js'
+import authRouter from './auth.router.js'
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use('/topCategories', topCategoriesRouter)
 router.use('/topProducts', topProductsRouter)
 router.use('/specialProducts', specialProductsRouter)
 router.use('/blogs', blogsRouter)
+router.use('/auth', authRouter)
 
 export default router;
