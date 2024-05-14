@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js';
+import Jwt from 'jsonwebtoken'
 
 const controller = {
     signUp : async (req, res, next) => {
@@ -33,12 +34,25 @@ const controller = {
                 {new:true}
             )
 
+            const token = Jwt.sign(
+                {
+                    id: user._id,
+                    name:user.name,
+                    image:user.image,
+                    email:user.email
+                },
+
+                process.env.SECRET,
+                {expiresIn:'10h'}
+            )
+
             user.password = null
 
             return res.status(200).json({
                 success: true,
                 message:'Usuario logueado correctamente!',
                 response:{
+                    token,
                     user
                 }
             })
