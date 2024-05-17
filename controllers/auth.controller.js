@@ -63,7 +63,32 @@ const controller = {
                 message:'error al iniciar sesion!'
             })
         }
+    },
+
+    signOut : async (req, res, next) => {
+        try {
+            
+            const user = await User.findOneAndUpdate(
+                {email:req.user.email},
+                {online:false},
+                {new:true}
+            )
+
+            return res.status(200).json({
+                success:true,
+                message:"Usuario deslogueado correctamente!"
+            })
+            
+            
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message:'error al iniciar sesion!'
+            })
+        }
     }
+
+    
 }
 
 export default controller;

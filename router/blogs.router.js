@@ -1,6 +1,7 @@
 import express from 'express'
 import blogController from '../controllers/blog.controller.js'
 import passportMiddleware from '../middlewares/passport.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 
 const router = express.Router();
 
@@ -10,10 +11,10 @@ router.get('/', blogController.getBlogs)
 
 router.get('/:id', blogController.getBlogById)
 
-router.post('/', passport, blogController.createBlog)
+router.post('/', passport, isAdmin, blogController.createBlog)
 
-router.put('/:id', passport, blogController.updateBlog)
+router.put('/:id', passport, isAdmin, blogController.updateBlog)
 
-router.delete('/:id', passport, blogController.deleteBlog)
+router.delete('/:id', passport, isAdmin, blogController.deleteBlog)
 
 export default router;
