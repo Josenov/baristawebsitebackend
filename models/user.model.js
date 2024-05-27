@@ -7,6 +7,8 @@ let schema = new Schema({
     image: {type:String, required:true},
     email: {type:String, required:true},
     password: {type:String, required:true},
+    google: {type:Boolean, default:false},
+    role: {type:String, default:"user"},
     online:{type:Boolean, default:false},
     verified:{type:Boolean, default:true},
     verified_code:{type:String}

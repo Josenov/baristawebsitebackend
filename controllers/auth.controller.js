@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js';
 import Jwt from 'jsonwebtoken'
+import { verify } from '../helpers/google-verify.js';
 
 const controller = {
     signUp : async (req, res, next) => {
@@ -83,7 +84,84 @@ const controller = {
         } catch (error) {
             return res.status(500).json({
                 success: false,
-                message:'error al iniciar sesion!'
+                message:'error al desloguear usuario!'
+            })
+        }
+    }, 
+
+    token : async (req, res, next) =>{
+        const {user} = req
+        try {
+            return res.status(200).json({
+                user:{
+                    name:user.name,
+                    email:user.email,
+                    image:user.image
+                }
+            })
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message:'error al guardar informacion de usuario!'
+            })
+        }
+    },
+
+    googleSignIn : async (req, res, next) => {
+        const {token_id} = req.body;
+
+        try {
+
+            const {name, email, image} = await verify (token_id)
+
+            let user = await User.findOne({email})
+
+            if(!user){
+                const data = {
+                    name,
+                    email,
+                    image,
+                    password:bcrypt.hashSync(process.env.DEFAULT_PASSWORD,10),
+                    google:true,
+                    role:'user'
+                }
+
+                user = await User.create(data)
+
+                user.online=true;
+
+                await user.save();
+
+                const token = Jwt.sign(
+                    {
+                        id:user._id,
+                        email:user.email,
+                        name:user.name,
+                        image:user.image
+                    },
+                    process.env.SECRET,
+                    {expiresIn:'10h'}
+                )
+
+                res.status(200).json({
+                    success:true,
+                    message: "User logged with Google!",
+                    response: {
+                        token,
+                        user:{
+                            name:user.name,
+                            email:user.email,
+                            image:user.image
+                        }
+                    }
+                })
+            }
+            
+            
+        } catch (error) {
+            res.status(500).json({
+                success:false,
+                message: "Google Token error!"
             })
         }
     }
