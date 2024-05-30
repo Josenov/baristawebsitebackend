@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post('/signup', accountExistsSignUp, signUp)
 router.post('/signin',accountExistsSignIn,accountHasBeenVerified, passwordIsOk, signIn)
-router.post('/googlesignin', googleSignIn)
+router.post('/googlesignin', googleSignIn) 
 router.post('/signout',passport.authenticate('jwt', {session:false}), signOut)
 router.post('/token',passport.authenticate('jwt', {session:false}), token)
 
