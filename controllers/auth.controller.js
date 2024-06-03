@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js';
 import Jwt from 'jsonwebtoken'
 import { verify } from '../helpers/google-verify.js';
+import { upload } from '../middlewares/uploadImgMulter.js';
+
 
 const controller = {
     signUp: async (req, res, next) => {
@@ -11,7 +13,11 @@ const controller = {
             req.body.verified_code = crypto.randomBytes(10).toString('hex');
             req.body.password = bcrypt.hashSync(req.body.password, 10)
 
-            const user = await User.create(req.body)
+            const user = await User.create({
+                ...req.body,
+                image : req.file ? req.file.filename : null
+            })
+            
 
             return res.status(201).json({
                 success: true,
@@ -19,10 +25,11 @@ const controller = {
             })
 
         } catch (error) {
-            return res.status(500).json({
+            console.log(error)
+            /* return res.status(500).json({
                 success: false,
                 message: 'Error al registrar usuario!'
-            })
+            }) */
         }
 
     },
