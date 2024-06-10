@@ -3,11 +3,27 @@ import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js';
 import Jwt from 'jsonwebtoken'
 import { verify } from '../helpers/google-verify.js';
+import cloudinary from '../helpers/cloudinary.js';
 import { upload } from '../middlewares/uploadImgMulter.js';
 
 
+
 const controller = {
+
     signUp: async (req, res, next) => {
+
+        const cloud = async () => {
+            if (req.file) {
+                const result = await cloudinary.uploader.upload(req.file.path, {
+                    folder: 'user-images',
+                    
+                });
+                return result.secure_url;
+            }
+            return null;
+        };
+
+        const imageUrl = await cloud();
 
         try {
             req.body.verified_code = crypto.randomBytes(10).toString('hex');
@@ -15,22 +31,23 @@ const controller = {
 
             const user = await User.create({
                 ...req.body,
-                image : req.file ? req.file.filename : null
+                image: imageUrl
             })
-            
 
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
-                message: 'Usuario creado correctamente!'
+                message: 'Usuario registrado con exito'
             })
 
-        } catch (error) {
-            console.log(error)
-            /* return res.status(500).json({
+        }
+        catch (error) {
+
+            return res.status(500).json({
                 success: false,
                 message: 'Error al registrar usuario!'
-            }) */
+            })
         }
+
 
     },
 
