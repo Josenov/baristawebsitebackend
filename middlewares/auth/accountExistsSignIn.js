@@ -23,7 +23,7 @@ export const accountExistsSignIn = async (req, res, next) =>{
 
     return res.status(400).json({
         success:false,
-        message:'Usuario no registrado'
+        message:'Usuario no registrado, crea una cuenta o inicia sesion con Google'
     })
 
 }
