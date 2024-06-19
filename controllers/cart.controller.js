@@ -38,14 +38,16 @@ const controller = {
                 {new:true}
             )
 
-            .then((specialProduct) => {
+            .then((specialProd) => {
                 newProductInCart.save();
                 res.json({
                     message:'El producto fue agregado al carrito',
-                    specialProduct : specialProduct
-                })
+                    specialProd,
+                });
             })
             .catch((error)=>console.log(error))
+
+            
         } else if (isInCart){
             res.status(400).json({
                 message: 'El producto ya esta en el carrito'

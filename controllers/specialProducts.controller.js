@@ -74,7 +74,7 @@ const controller = {
 
         const {specialProductId} = req.params;
         const {query} = req.query;
-        const {body} = req.body
+        const body = req.body
 
         const specialProductSearched = await Cart.findById(specialProductId)
 
@@ -149,9 +149,9 @@ const controller = {
 
         )
 
-        .then((specialProduct)=>{
+        .then((specialProd)=>{
             res.json({
-                message:`El producto ${specialProduct.title} fue eliminado del carrito`
+                message:`El producto ${specialProd.title} fue eliminado del carrito`
             })
         })
 

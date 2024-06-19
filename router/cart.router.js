@@ -10,9 +10,9 @@ router.get('/', cartController.getCartProducts)
 
 router.post('/', cartController.addCartProducts )
 
-router.put('/:id', specialProducts.updateSpecialProduct )
+router.put('/:specialProductId', specialProducts.updateSpecialProduct )
 
-router.delete('/:id', specialProducts.deleteSpecialProduct )
+router.delete('/:specialProductId', specialProducts.deleteSpecialProduct )
 
 
 export default router;
