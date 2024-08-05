@@ -84,7 +84,10 @@ const controller = {
     
                 if (specialProd) {
                     await newProductInCart.save();
-                    return res.json(specialProd)
+                    return res.status(201).json({
+                        specialProd,
+                        message: 'Producto agregado al carrito'
+                    });
                 } else {
                     return res.status(400).json({
                         message: 'No se pudo actualizar el producto en la base de datos'
