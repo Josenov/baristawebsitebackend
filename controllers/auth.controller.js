@@ -172,7 +172,7 @@ const controller = {
 
             res.status(200).json({
                 success: true,
-                message: "User logged with Google!",
+                message: "Usuario logueado con Google correctamente",
                 response: {
                     token,
                     user: {
